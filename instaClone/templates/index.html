@@ -5,38 +5,17 @@
 
 <div class="row">
   <div class="col-md-8">
+
     <section class="main">
       <div class="wrapper">
         <div class="left-col">
           <div class="status-wrapper">
+            {% for status in allusers %}
             <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_1</p>
+              <div class="profile-pic"><img src="{{ status.propic.url }}" alt=""></div>
+              <p class="username">{{status.name}}</p>
             </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_2</p>
-            </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_3</p>
-            </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_3</p>
-            </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_3</p>
-            </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_3</p>
-            </div>
-            <div class="status-card">
-              <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-              <p class="username">user_name_3</p>
-            </div>
+            {% endfor %}
           </div>
         </div>
     </section>
@@ -44,16 +23,16 @@
     <section class="main postz">
       <div class="wrapper">
         <div class="left-col">
-
+          {% for photo in allpictures %}
           <div class="post">
             <div class="info">
               <div class="user">
-                <div class="profile-pic"><img src="{% static 'images/cover 4.png'%}" alt=""></div>
-                <p class="username">modern_web_channel</p>
+                <div class="profile-pic"><img src="{{ photo.uploadedBy.Profile.propic.url }}" alt=""></div>
+                <p class="username">{{ photo.uploadedBy.profile }}</p>
               </div>
               <img src="{% static 'images/option.PNG'%}" class="options" alt="">
             </div>
-            <img src="{% static 'images/cover 4.png'%}" class="post-image" alt="">
+            <img src="{{ photo.picture.url }}" class="post-image" alt="">
             <div class="post-content">
               <div class="reaction-wrapper">
                 <img src="{% static 'images/like.PNG'%}" class="icon" alt="">
@@ -72,11 +51,12 @@
               <button class="comment-btn">post</button>
             </div>
           </div>
-
+          {% endfor %}
         </div>
       </div>
     </section>
   </div>
+
   <div class="col-md-4">
     <section class="main">
       <div class="wrapper">
@@ -86,62 +66,24 @@
               <img src="{% static 'images/cover 4.png'%}" alt="">
             </div>
             <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">kunaal kumar</p>
+              <p class="username">{{request.user}}</p>
+              <p class="sub-text">@{{ request.user }}</p>
             </div>
             <button class="action-btn">switch</button>
           </div>
           <p class="suggestion-text">Suggestions for you</p>
+          {% for sugg in allusers %}
           <div class="profile-card">
             <div class="profile-pic">
-              <img src="{% static 'images/cover 4.png'%}" alt="">
+              <img src="{{sugg.propic.url}}" alt="">
             </div>
             <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">followed bu user</p>
+              <p class="username">{{sugg.name }}</p>
+              <p class="sub-text"></p>
             </div>
             <button class="action-btn">follow</button>
           </div>
-          <div class="profile-card">
-            <div class="profile-pic">
-              <img src="{% static 'images/cover 4.png'%}" alt="">
-            </div>
-            <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">followed bu user</p>
-            </div>
-            <button class="action-btn">follow</button>
-          </div>
-          <div class="profile-card">
-            <div class="profile-pic">
-              <img src="{% static 'images/cover 4.png'%}" alt="">
-            </div>
-            <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">followed bu user</p>
-            </div>
-            <button class="action-btn">follow</button>
-          </div>
-          <div class="profile-card">
-            <div class="profile-pic">
-              <img src="{% static 'images/cover 4.png'%}" alt="">
-            </div>
-            <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">followed bu user</p>
-            </div>
-            <button class="action-btn">follow</button>
-          </div>
-          <div class="profile-card">
-            <div class="profile-pic">
-              <img src="{% static 'images/cover 4.png'%}" alt="">
-            </div>
-            <div>
-              <p class="username">modern_web_channel</p>
-              <p class="sub-text">followed bu user</p>
-            </div>
-            <button class="action-btn">follow</button>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </section>
