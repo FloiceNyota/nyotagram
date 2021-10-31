@@ -49,3 +49,36 @@ class Profile(models.Model):
     profiles = User.objects.filter(username__icontains=searchTerm)
     return profiles
 
+class Post(models.Model):
+  picture = models.ImageField(upload_to='photos/')
+  caption = models.CharField(max_length=3000)
+  uploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+  location = models.ForeignKey(Location, on_delete=models.CASCADE)
+  posted = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return self.caption
+
+  def save_picture(self):
+    self.save()
+
+  @classmethod
+  def delete_picture(cls, id):
+    cls.objects.filter(id=id).delete()
+
+  @classmethod
+  def update_caption(cls, id, caption):
+    cls.objects.filter(id=id).update(caption = caption)
+
+  @classmethod
+  def user_pictures(cls, username):
+    pics = cls.objects.filter(uploadedBy__username = username)
+    return pics
+
+  @classmethod
+  def all_pictures(cls):
+    all_pics = cls.objects.all()
+    return all_pics
+
+  class Meta:
+    ordering = ['-posted']
