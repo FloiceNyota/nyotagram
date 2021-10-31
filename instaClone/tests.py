@@ -1,4 +1,8 @@
 from django.test import TestCase
+from .models import Location, Profile, Post
+from django.contrib.auth.models import User
+
+
 class TestLocation(TestCase):
   def setUp(self):
     self.location = Location(location='Kisumu')
@@ -27,4 +31,23 @@ class TestLocation(TestCase):
     Location.updateLocation(self.location.id, update_term)  
     updated_one = Location.objects.get(id=self.location.id)
     self.assertEqual(updated_one.location, 'Kisii')
+
+class TestProfile(TestCase):
+  def setUp(self):
+    self.new_user = User(username = "nyotafloice", email = "nyotafloice@gmail.com",password = "nyotafloice1234")
+    self.new_user.save()
+
+  def tearDown(self):
+    Profile.objects.all().delete()
+    User.objects.all().delete()
+
+  def test_isinstance(self):
+    self.assertTrue(isinstance(self.new_user.profile, Profile))
+
+  def test_searchProfile(self):
+    search = 'nyotafloice'
+    self.new_user2 = User(username = "johndoe", email = "johndoe@gmail.com",password = "johndoe1234")
+    self.new_user2.save()
+    image_search = Profile.searchProfile(search)
+    self.assertTrue(len(image_search) == 1)
 
