@@ -51,3 +51,48 @@ class TestProfile(TestCase):
     image_search = Profile.searchProfile(search)
     self.assertTrue(len(image_search) == 1)
 
+class TestPost(TestCase):
+  def setUp(self):
+    self.location = Location(location='Machakos')
+    self.location.save()
+    self.new_user = User(username = "layersony")
+    self.new_user.save()
+    self.new_post = Post(picture='test.jpg',caption = 'this is trial' , uploadedBy = self.new_user, location=self.location)
+    self.new_post.save_picture()
+  
+  def tearDown(self):
+    Post.objects.all().delete()
+    User.objects.all().delete()
+    Location.objects.all().delete()
+
+  def test_isinstance(self):
+    self.assertTrue(isinstance(self.new_post, Post))
+
+  def test_savePicture(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.objects.all()),2)
+
+  def test_deletePicture(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.objects.all()),2)
+    Post.delete_picture(self.new_post2.id)
+    self.assertEqual(len(Post.objects.all()),1)
+
+  def test_update(self):
+    self.new_post.save_picture()
+    self.new_post.update_caption(self.new_post.id, 'wow this is mmmmh.....')
+    updated_post = Post.objects.get(id=self.new_post.id)
+    self.assertEqual(updated_post.caption, 'wow this is mmmmh.....')   
+  
+  def test_allpics(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    self.assertEqual(len(Post.all_pictures()), 2)
+
+  def test_userPictures(self):
+    self.new_post2 = Post(picture='test2.jpg',caption = 'amazing' , uploadedBy = self.new_user, location=self.location)
+    self.new_post2.save_picture()
+    usrpic = Post.user_pictures(self.new_user.username)
+    self.assertEqual(len(usrpic), 2)
