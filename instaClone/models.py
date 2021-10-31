@@ -82,3 +82,16 @@ class Post(models.Model):
 
   class Meta:
     ordering = ['-posted']
+
+class Comments(models.Model):
+  comment = models.CharField(max_length=200, null=True, blank=True)
+  pic = models.ForeignKey(Post, on_delete=models.CASCADE)
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+  def save_comment(self):
+    self.save()
+
+  @classmethod
+  def delete_comment(cls, id):
+    cls.objects.filter(id=id).delete()
+  
