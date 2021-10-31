@@ -9,3 +9,9 @@ def index(request):
     'allusers': allusers,
   }
   return render(request, 'index.html', content)
+
+def currProfile(request):
+  content={
+
+  }
+  return render(request, 'currprofile.html', content)
