@@ -15,3 +15,13 @@ class ProfileForm(forms.ModelForm):
     fields = ('name', 'userbio', 'propic', 'phoneNumber', 'gender')
   
 class PostPicForm(forms.ModelForm):
+  class Meta:
+    model = Post
+    exclude = ('uploadedBy', 'posted')
+    fields = '__all__'
+
+class CommentForm(forms.ModelForm):
+  class Meta:
+    model = Comments
+    exclude = ('pic', 'user')
+    fields = '__all__'
