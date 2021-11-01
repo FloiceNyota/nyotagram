@@ -41,12 +41,12 @@
                 <img src="{% static 'images/send.PNG'%}" class="icon" alt="">
                 <img src="{% static 'images/save.PNG'%}" class="save icon" alt="">
               </div>
-              <p class="likes">1,012 likes</p>
+              <p class="likes">10 likes</p>
               {% if allcomments %}
                 {% for comment in allcomments %}
                   {% if comment.pic.id == photo.id %}
                     <p class="description"><span>{{comment.user.username}} </span> {{comment.comment}}</p>
-                    <p class="post-time">2 minutes ago</p>
+                    <p class="post-time"></p>
                   {% endif %}
                 {% endfor %}
               {% else %}
@@ -57,7 +57,7 @@
               <img src="{% static 'images/smile.PNG' %}" class="icon" alt="" class="ms-1">
               <form action="{% url 'home' %}" method="post" style="width: 100%; margin-left: 7px;">
                 {% csrf_token %}
-                <input type="hidden" name="imageid" value='{{image.id}}'>
+                <input type="hidden" name="photoid" value='{{photo.id}}'>
                 {{ commentform }}
                 <button class="comment-btn" type='submit'>Post</button>
               </form>

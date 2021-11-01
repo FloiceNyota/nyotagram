@@ -22,7 +22,7 @@ class PostPicForm(forms.ModelForm):
     fields = '__all__'
 
 class CommentForm(forms.ModelForm):
-  comment = forms.CharField(required=True,  label='', widget=forms.TextInput(attrs={'class':'comment-box', 'placeholder':'Add a comment' , 'id':'comment', 'name':'comment'}))
+  comment = forms.CharField( label='', widget=forms.TextInput(attrs={'class':'comment-box', 'placeholder':'Add a comment' , 'id':'comment', 'name':'comment'}))
   class Meta:
     model = Comments
     exclude = ('pic', 'user')
