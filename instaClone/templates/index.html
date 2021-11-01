@@ -14,7 +14,7 @@
             {% for status in allusers %}
             <div class="status-card">
               <div class="profile-pic"><img src="{{ status.propic.url }}" alt=""></div>
-              <p class="username">{{status.name}}</p>
+              <a href="{% url 'userprofile' status.username.profile.id %}"><span class="username">{{status.username}}</span></a>
             </div>
             {% endfor %}
           </div>
@@ -28,8 +28,8 @@
           <div class="post" id="image{{photo.id}}">
             <div class="info">
               <div class="user">
-                <div class="profile-pic"><img src="{{ photo.uploadedBy.Profile.propic.url }}" alt=""></div>
-                <p class="username">{{ photo.uploadedBy.profile }}</p>
+                <div class="profile-pic"><img src="{{ photo.uploadedBy.profile.propic.url }}" alt=""></div>
+                <a href="{% url 'userprofile' photo.uploadedBy.profile.id %}"><p class="username">{{ photo.uploadedBy.profile }}</p></a>
               </div>
               <img src="{% static 'images/option.PNG'%}" class="options" alt="">
             </div>
@@ -90,10 +90,10 @@
               <img src="{{sugg.propic.url}}" alt="">
             </div>
             <div>
-              <p class="username">{{sugg.name }}</p>
+              <a href="{% url 'userprofile' sugg.username.profile.id %}"><p class="username">{{sugg.username }}</p></a>
               <p class="sub-text"></p>
             </div>
-            <button class="action-btn">follow</button>
+            <button class="action-btn"></button>
           </div>
           {% endfor %}
         </div>
