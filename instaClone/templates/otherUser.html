@@ -14,6 +14,11 @@
     <div class="profileheader">
       <div class='d-flex justify-content-between align-items-center'>
         <h3>{{ userprofile.username }}</h3>
+        {% if is_following %}
+        <button class="btn btn-success mb-2" id = "follow-btn" onclick="follower('{{using_user.id}}')">Following</button>
+        {% else %}
+        <button class="btn btn-info mb-2" id="follow-btn" onclick="follower('{{using_user.id}}')">Follow</button>
+        {% endif %}
 
       </div>
       <div class="d-flex justify-content-between align-items-center mt-md-3">
@@ -39,5 +44,36 @@
   {% endfor%}
 </div>
 
+<script>
+    function follower(id) {
+        let user_id = parseInt(id)
+        followBtn = document.getElementById("follow-btn")
+        console.log(followBtn)
+        $.ajax({
+            "url": "{% url 'followuser' %}",
+            "type": "POST",
+            "data": {
+            "id":user_id,
+            "csrfmiddlewaretoken": '{{csrf_token}}'
+            },
+            "dataType": "json",
+            "success": function(request) {
+                if(request['followed'] == 1) {
+                    console.log('1')
+                    followBtn.classList.remove("btn-info")
+                    followBtn.classList.add("btn-success")
+                    followBtn.textContent = "Following"
+                    $("#count").text(request["count"] + " Followers")
+                } else {
+                    console.log('2')
+                    followBtn.classList.remove("btn-success")
+                    followBtn.classList.add("btn-info")
+                    followBtn.textContent = "Follow" 
+                    $("#count").text(request["count"] + " Followers")
+                }  
+            }
+        })
+    }
+</script>
 
 {% endblock %}

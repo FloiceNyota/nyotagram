@@ -8,4 +8,6 @@ urlpatterns = [
   path('search/', views.searchUser, name='search_results'),
   path('imagedetails/<int:id>', views.imagedetails, name='imagedetails'),
   path('postphoto/', views.post_photo, name='postphoto'),
+  path('ajax/follow/profile', views.followuser , name='followuser'),
+  path('accounts/', include('django_registration.backends.one_step.urls')),
 ]

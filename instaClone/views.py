@@ -1,6 +1,7 @@
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
-from instaClone.forms import CommentForm
-from .models import Post, Profile, Location, Comments
+from instaClone.forms import CommentForm, PostPicForm, ProfileForm, UserForm
+from .models import Follow, Post, Profile, Location, Comments, User
 
 def index(request):
   if request.method == 'POST':
@@ -101,3 +102,17 @@ def post_photo(request):
   postForm = PostPicForm()
   return render(request, 'postphoto.html', {'postForm':postForm, 'user':request.user})
 
+def followuser(request):
+  user = User.objects.get(id = request.POST.get("id"))
+  followed = None
+
+  if Follow.objects.filter(follower = user, following = request.user):
+      Follow.objects.filter(follower = user, following = request.user).delete()
+      followed = 0
+      count = user.follower.all().count()
+  else:
+      Follow.objects.create(follower = user, following = request.user)
+      followed = 1
+      count = user.follower.all().count()
+  data = {"hey":"hey", "followed":followed, "count":count}
+  return JsonResponse(data)
