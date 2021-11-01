@@ -82,3 +82,15 @@ def imagedetails(request, id):
   allcomments = Comments.objects.all()
   return render(request, 'imagedetails.html', {'photo':pic, 'commentform':commentform, 'allcomments':allcomments})
 
+def post_photo(request):
+  if request.method == 'POST':
+    postForm = PostPicForm(request.POST, request.FILES)
+    if postForm.is_valid():
+      pic = postForm.save(commit=False)
+      pic.uploadedBy = request.user
+      pic.save()
+    return redirect('profile')
+
+  postForm = PostPicForm()
+  return render(request, 'postphoto.html', {'postForm':postForm, 'user':request.user})
+
