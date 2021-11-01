@@ -28,7 +28,21 @@ def index(request):
   return render(request, 'index.html', content)
 
 def currProfile(request):
-  content={
+  if request.method == 'POST':
+    userForm = UserForm(request.POST, instance=request.user)
+    profileForm = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+    if userForm.is_valid() and profileForm.is_valid():
+      userForm.save()
+      profileForm.save()
+    return redirect('profile')
 
+  userForm = UserForm(instance=request.user)
+  profileForm = ProfileForm(instance=request.user)
+  curruser_photos = Post.user_pictures(request.user.username)
+  content={
+    'userForm':userForm,
+    'profileForm':profileForm,
+    'curruser_photos':curruser_photos,
+    'curruser':request.user,
   }
   return render(request, 'currprofile.html', content)
