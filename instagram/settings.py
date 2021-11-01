@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'instaClone',
+    'django_registration'
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 django_heroku.settings(locals())
 
+LOGIN_REDIRECT_URL ='/'
+LOGOUT_REDIRECT_URL ='/'
+
+ACCOUNT_ACTIVATION_DAYS = 30
+ACCOUNT_EMAIL_VERIFICATION = "none"

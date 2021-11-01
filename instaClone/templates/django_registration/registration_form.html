@@ -1,0 +1,38 @@
+{%extends "registration/base.html"%} 
+{% load bootstrap5 %}
+{% load static %}
+
+{% block content %}
+<div class="container mb-5">
+  <div class="row d-flex flex-column justify-content-center align-items-center">
+    <div class="col-md-4 loginslot2">
+      {% if form.errors %}
+        <p> Some Information Might be Incorrect </p>
+      {% endif %}
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <img src="{% static 'images/logo.png' %}" alt="" width='85%' class='mt-2 mb-2'>
+        </div>
+        <div class='text-center'>
+          <p>Sign up to see photos from your friends</p>
+        </div>
+        <div class="panel-body">
+          <form  action="/accounts/register/" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary btn-sm login-button" value="Sign Up">
+            </div>
+            <input type="hidden" name="next" value="{{next}}">
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="loginslorextra2 mt-2 text-center">
+      <p>Have an account? <a href="/accounts/login">Log in</a></p>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
