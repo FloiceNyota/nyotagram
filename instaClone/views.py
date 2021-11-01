@@ -65,6 +65,13 @@ def userprofile(request, id):
   except Profile.DoesNotExist:
     return HttpResponseRedirect(", Page Doesn't Exist")
 
+def searchUser(request):
+  if 'search' in request.GET and request.GET['search']:
+    search_term = request.GET.get('search')
+    searchprofiles = Profile.searchProfile(search_term)
+    return render(request, 'search.html', {'searchresults':searchprofiles})
+  else:
+    return redirect('home')
 def imagedetails(request, id):
   if request.method == 'POST':
     commentform = CommentForm(request.POST)
