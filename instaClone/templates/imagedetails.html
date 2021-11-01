@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% block content %}
+<h4 class="text-center" style='margin-top: 60px;'>Image {{ photo.id }} by {{ photo.uploadedBy.username}}</h4>
+<div class="mt-5 imagedetail d-flex justify-content-center align-items-center">
+  <div class="row">
+    <div class="col-md-9">
+      <img src="{{photo.picture.url }}" alt="image{{photo.id}}" class="img-fluid">
+    </div>
+    <div class="col-md-3 mt-2 p-3">
+      <div class="header d-flex justify-content-start align-items-center">
+        <img src="{{ photo.uploadedBy.profile.propic.url  }}" alt="image{{photo.id}}" class="img-fluid landingImage mr-md-2">
+        <div class="d-flex ms-2 justify-content-start align-items-start">
+          <a href="{% url 'userprofile' photo.uploadedBy.profile.id %}" class='text-dark'>{{ photo.uploadedBy.username  }}</a>
+          <sub>{{ photo.location }}</sub>
+        </div>
+      </div>
+      <hr class="mb-2">
+      <strong>Caption: </strong>{{photo.caption}}
+      {% if allcomments %}
+        {%for comment in allcomments%}
+          {%if comment.pic.id == photo.id%}
+          <p>
+            <strong><a href="{% url 'userprofile' comment.user.profile.id %}" class='text-dark'><span> {{ comment.user.username  }}</span></a></strong> {{comment.comment}}
+          </p>
+          {%endif%}
+        {%endfor%}
+      {% else %}
+        <p>empty</p>
+      {% endif %}
+      <div class="p-1">
+      <form action="{%url 'imagedetails' photo.id %}" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        <input type="hidden" name="imageid" value='{{photo.id}}'>
+        {{ commentform }}
+        <input type="submit" class="btn btn-success btn-md d-none" value="Add Comment">
+      </form>
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

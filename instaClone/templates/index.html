@@ -25,7 +25,7 @@
       <div class="wrapper">
         <div class="left-col">
           {% for photo in allpictures %}
-          <div class="post">
+          <div class="post" id="image{{photo.id}}">
             <div class="info">
               <div class="user">
                 <div class="profile-pic"><img src="{{ photo.uploadedBy.Profile.propic.url }}" alt=""></div>
@@ -33,7 +33,7 @@
               </div>
               <img src="{% static 'images/option.PNG'%}" class="options" alt="">
             </div>
-            <img src="{{ photo.picture.url }}" class="post-image" alt="">
+            <a href="{% url 'imagedetails' photo.id %}"><img src="{{ photo.picture.url }}" class="post-image" alt=""></a>
             <div class="post-content">
               <div class="reaction-wrapper">
                 <img src="{% static 'images/like.PNG'%}" class="icon" alt="">

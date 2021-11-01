@@ -46,3 +46,20 @@ def currProfile(request):
     'curruser':request.user,
   }
   return render(request, 'currprofile.html', content)
+def imagedetails(request, id):
+  if request.method == 'POST':
+    commentform = CommentForm(request.POST)
+    if commentform.is_valid():
+      photoId = int(request.POST.get('imageid'))
+      photo = Post.objects.get(id=photoId)
+      comment = commentform.save(commit=False)
+      comment.user = request.user
+      comment.pic = photo
+      comment.save()
+    return redirect('imagedetails', id=id)
+
+  commentform = CommentForm(request.POST)
+  pic = Post.objects.get(id = id)
+  allcomments = Comments.objects.all()
+  return render(request, 'imagedetails.html', {'photo':pic, 'commentform':commentform, 'allcomments':allcomments})
+
