@@ -2,12 +2,15 @@ from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from instaClone.forms import CommentForm, PostPicForm, ProfileForm, UserForm
 from .models import Follow, Post, Profile, Location, Comments, User
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='accounts/login/')
 def index(request):
   if request.method == 'POST':
     commentform = CommentForm(request.POST)
     if commentform.is_valid():
-      photoId = int(request.POST.get('imageid'))
+      photoId = int(request.POST.get('photoid'))
       photo = Post.objects.get(id=photoId)
 
       comment = commentform.save(commit=False)
@@ -28,6 +31,7 @@ def index(request):
   }
   return render(request, 'index.html', content)
 
+@login_required(login_url='accounts/login')
 def currProfile(request):
   if request.method == 'POST':
     userForm = UserForm(request.POST, instance=request.user)
@@ -47,7 +51,9 @@ def currProfile(request):
     'curruser':request.user,
   }
   return render(request, 'currprofile.html', content)
-def userprofile(request, id):
+
+@login_required(login_url='accounts/login')
+def otherUser(request, id):
   try:
     user = Profile.objects.get(id = id)
     user_pics = Post.user_pictures(user.username)
@@ -66,6 +72,7 @@ def userprofile(request, id):
   except Profile.DoesNotExist:
     return HttpResponseRedirect(", Page Doesn't Exist")
 
+@login_required(login_url='accounts/login')
 def searchUser(request):
   if 'search' in request.GET and request.GET['search']:
     search_term = request.GET.get('search')
@@ -73,6 +80,8 @@ def searchUser(request):
     return render(request, 'search.html', {'searchresults':searchprofiles})
   else:
     return redirect('home')
+
+@login_required(login_url='accounts/login')
 def imagedetails(request, id):
   if request.method == 'POST':
     commentform = CommentForm(request.POST)
@@ -90,6 +99,7 @@ def imagedetails(request, id):
   allcomments = Comments.objects.all()
   return render(request, 'imagedetails.html', {'photo':pic, 'commentform':commentform, 'allcomments':allcomments})
 
+@login_required(login_url='accounts/login')
 def post_photo(request):
   if request.method == 'POST':
     postForm = PostPicForm(request.POST, request.FILES)
