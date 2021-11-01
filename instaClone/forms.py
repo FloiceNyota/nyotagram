@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models.fields import TextField
 from .models import Profile, Post, Comments
 
 class UserForm(forms.ModelForm):
@@ -21,7 +22,8 @@ class PostPicForm(forms.ModelForm):
     fields = '__all__'
 
 class CommentForm(forms.ModelForm):
+  comment = forms.CharField(required=True,  label='', widget=forms.TextInput(attrs={'class':'comment-box', 'placeholder':'Add a comment' , 'id':'comment', 'name':'comment'}))
   class Meta:
     model = Comments
     exclude = ('pic', 'user')
-    fields = '__all__'
+    fields = ['comment']

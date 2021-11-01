@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block content %}
 
@@ -41,14 +42,25 @@
                 <img src="{% static 'images/save.PNG'%}" class="save icon" alt="">
               </div>
               <p class="likes">1,012 likes</p>
-              <p class="description"><span>username </span> Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Pariatur tenetur veritatis placeat, molestiae impedit aut provident eum quo natus molestias?</p>
-              <p class="post-time">2 minutes ago</p>
+              {% if allcomments %}
+                {% for comment in allcomments %}
+                  {% if comment.pic.id == photo.id %}
+                    <p class="description"><span>{{comment.user.username}} </span> {{comment.comment}}</p>
+                    <p class="post-time">2 minutes ago</p>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+              <p>Comments {{allcomments.count}}</p>
+              {% endif %}
             </div>
             <div class="comment-wrapper">
-              <img src="{% static 'images/smile.PNG' %}" class="icon" alt="">
-              <input type="text" class="comment-box" placeholder="Add a comment">
-              <button class="comment-btn">post</button>
+              <img src="{% static 'images/smile.PNG' %}" class="icon" alt="" class="ms-1">
+              <form action="{% url 'home' %}" method="post" style="width: 100%; margin-left: 7px;">
+                {% csrf_token %}
+                <input type="hidden" name="imageid" value='{{image.id}}'>
+                {{ commentform }}
+                <button class="comment-btn" type='submit'>Post</button>
+              </form>
             </div>
           </div>
           {% endfor %}
