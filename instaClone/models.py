@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from cloudinary.models import CloudinaryField
+
 Gender = (
   ('Male', 'Male'),
   ('Female', 'Female'),
@@ -25,7 +27,7 @@ class Location(models.Model):
     return self.location
 
 class Profile(models.Model):
-  propic = models.ImageField(upload_to='profiles/', null=True, blank=True, default='profiles/test.png')
+  propic = CloudinaryField('images', default='image/upload/v1635840825/test_jryogq.png')
   name= models.CharField(max_length=255, null=True)
   username = models.OneToOneField(User, on_delete=models.CASCADE)
   userbio = models.TextField()
@@ -51,7 +53,7 @@ class Profile(models.Model):
     return profiles
 
 class Post(models.Model):
-  picture = models.ImageField(upload_to='photos/')
+  picture = CloudinaryField()
   caption = models.CharField(max_length=3000)
   uploadedBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
   location = models.ForeignKey(Location, on_delete=models.CASCADE)

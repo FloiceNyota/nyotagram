@@ -4,6 +4,10 @@ import django_heroku
 import dj_database_url
 from decouple import config
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
@@ -20,7 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'instaClone',
-    'django_registration'
+    'django_registration',
+    'cloudinary'
+
 ]
 
 MIDDLEWARE = [
@@ -132,3 +138,9 @@ LOGOUT_REDIRECT_URL ='/'
 
 ACCOUNT_ACTIVATION_DAYS = 30
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+cloudinary.config( 
+  cloud_name = config('CLOUD_NAME'), 
+  api_key = config('API_KEY'), 
+  api_secret = config('API_SECRET') 
+)
